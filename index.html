@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Rock Paper Scissors</title>
+</head>
+<body>
+    <script>
+        function getComputerChoice() {
+            let comp_choice = Math.floor(Math.random()  * 3);
+            switch(comp_choice) {
+                case 0:
+                    return "rock";
+                case 1:
+                    return "paper";
+                case 2:
+                    return "scissors";
+            }
+        }
+
+        function playRound(playerSelection, computerSelection) {
+            playerSelection = playerSelection.toLowerCase();
+
+            const beats = new Map();
+            beats.set('rock','scissors');
+            beats.set('paper','rock');
+            beats.set('scissors','paper');
+
+            if(playerSelection === computerSelection) {
+                return 'Tie';
+            } else if(computerSelection === beats.get(playerSelection)) {
+                return 'Player wins';
+            } else {
+                return 'Computer wins';
+            }
+        }
+
+        function game() {
+            playerScore = 0;
+            computerScore = 0;
+
+            for(i = 0; i < 5; i++) {
+                playerSelection = prompt('Rock, Paper, Scissor?');
+                result = playRound(playerSelection, getComputerChoice());
+
+                switch(result) {
+                    case 'Player wins':
+                        playerScore += 1;
+                        break;
+                    case 'Computer wins':
+                        computerScore += 1;
+                        break;
+                    default:
+                        break;
+                }
+            }
+
+            console.log(`Player score: ${playerScore} \nComputer score: ${computerScore}`);
+
+            playerScore > computerScore ? console.log('Player wins') : playerScore === computerScore ? console.log('Tie') : console.log('Computer wins');
+        }
+
+        game();
+        
+    </script>
+</body>
+</html>
