@@ -5,11 +5,20 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Rock Paper Scissors</title>
+    <link rel="stylesheet" href="style.css">
 </head>
 <body>
+    <h1>Rock, paper, scissors</h1>
+    <div class="buttons">
+        <button id="rock">Rock</button>
+        <button id="paper">Paper</button>
+        <button id="scissors">Scissors</button>
+    </div>
+
+
     <script>
         function getComputerChoice() {
-            let comp_choice = Math.floor(Math.random()  * 3);
+            let comp_choice = Math.floor(Math.random() * 3);
             switch(comp_choice) {
                 case 0:
                     return "rock";
@@ -30,40 +39,43 @@
 
             if(playerSelection === computerSelection) {
                 return 'Tie';
-            } else if(computerSelection === beats.get(playerSelection)) {
+            } else if(beats.get(playerSelection) === computerSelection) {
                 return 'Player wins';
             } else {
                 return 'Computer wins';
             }
         }
 
-        function game() {
-            playerScore = 0;
-            computerScore = 0;
+        function game(e) {
+            const result = playRound(e.target.id, getComputerChoice());
 
-            for(i = 0; i < 5; i++) {
-                playerSelection = prompt('Rock, Paper, Scissor?');
-                result = playRound(playerSelection, getComputerChoice());
-
-                switch(result) {
-                    case 'Player wins':
-                        playerScore += 1;
-                        break;
-                    case 'Computer wins':
-                        computerScore += 1;
-                        break;
-                    default:
-                        break;
-                }
+            switch(result) {
+                case 'Player wins':
+                    playerScore += 1;
+                    break;
+                case 'Computer wins':
+                    computerScore += 1;
+                    break;
+                default:
+                    break;
             }
-
-            console.log(`Player score: ${playerScore} \nComputer score: ${computerScore}`);
-
-            playerScore > computerScore ? console.log('Player wins') : playerScore === computerScore ? console.log('Tie') : console.log('Computer wins');
+            
+            if(playerScore < 5 && computerScore <5){
+                div.textContent = `Player Score: ${playerScore} | Computer Score: ${computerScore} | Round result: ${result}`;
+            } else {
+                let winner = playerScore > computerScore ? 'Player wins': 'Computer wins';
+                div.textContent = winner;
+            }
         }
 
-        game();
-        
+        let playerScore = 0;
+        let computerScore = 0;
+        const div = document.createElement('div');
+
+        const btns = document.querySelectorAll('button');
+        btns.forEach( (btn) => btn.addEventListener('click', game));
+
+        document.body.appendChild(div);
     </script>
 </body>
 </html>
